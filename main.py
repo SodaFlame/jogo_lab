@@ -153,11 +153,11 @@ while True: # game loop
         
 #handle key presses and etc
         
-    for event in pygame.event.get(): # loop de comandos
-        if event.type == QUIT: # pediu pra sair?
-             pygame.quit() # sair do jogo
-             sys.exit() # parar o programa
-        if event.type == KEYDOWN: #se a tecla for pressionada
+    for event in pygame.event.get(): #event loop
+        if event.type == QUIT: # exit?
+             pygame.quit() # exit the  game
+             sys.exit() # stop the program
+        if event.type == KEYDOWN: #if the key is pressed
             if event.key == K_RIGHT: 
                 right = True
             if event.key == K_LEFT:
@@ -166,7 +166,7 @@ while True: # game loop
                 up = True
             if event.key == K_DOWN:
                 down = True
-        if event.type == KEYUP: #se a tecla for solta
+        if event.type == KEYUP: #if they key is released...
             if event.key == K_RIGHT:
                 right = False
             if event.key == K_LEFT:
