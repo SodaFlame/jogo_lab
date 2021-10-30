@@ -6,6 +6,7 @@ from pytmx.util_pygame import load_pygame
 from pygame.locals import *
 from sprites import *
 from classes import Knight
+from classes import *
 
 pygame.init()
 
@@ -35,23 +36,18 @@ def draw_grid():
         pygame.draw.line(display, white, (x*tile_size, 0), (x*tile_size, WINDOW_SIZE[1]))
     for x in range(lines+1):
         pygame.draw.line(display, white, (0, x*tile_size), (WINDOW_SIZE[0], x*tile_size))
-                                
-        
+                                        
 
 knight_sprite = pygame.sprite.Group()
-k1 = Knight(945, 555, 6, 0, 1)
-k2 = Knight(400, 400, 6, 0, 0)
-
+k1 = Knight(945, 555, 6, 0)
+k2 = Knight(400, 400, 6, 0)
 knight_sprite.add(k1)
 knight_sprite.add(k2)
-        
-        
 
 while True: # game loop
-    
     display.blit(map_img, (0,0))
-        
-#handle key presses and etc
+
+    #handle key presses and etc
         
     for event in pygame.event.get(): #event loop
         if event.type == QUIT: # exit?
@@ -80,18 +76,21 @@ while True: # game loop
                 left_click = True
             if event.button == 3:
                 right_click = True
-    if event.type == MOUSEBUTTONUP:
-        if event.button == 1:
-            left_click = False
-        if event.button == 3:
-            right_click = False
+        if event.type == MOUSEBUTTONUP:
+            if event.button == 1:
+                left_click = False
+            if event.button == 3:
+                right_click = False
         
     if right == False and left == False and up == False and down == False:
         idle = True
-
+    
+    
     draw_grid()
     knight_sprite.draw(display)
     knight_sprite.update()
+   # gm.draw(display)
+   # gm.update()
     
     #will cause a blackscreen if removed
     surf = pygame.transform.scale(display, WINDOW_SIZE)

@@ -15,6 +15,27 @@ map_rect = map_img.get_rect()
 
 class Knight(pygame.sprite.Sprite):
     def __init__(self, pos_x, pos_y, movement, is_clicked, is_ally):
+        pygame.sprite.Sprite.__init__(self)
+        self.sprites = []
+        self.x = pos_x
+        self.y = pos_y
+        self.has_turn = True
+        self.select_char = 0
+        self.target_set = 0
+        self.click = 0
+        self.movement = 2400
+        #Knight.attack = 0
+        self.target_dest = [self.x, self.y]
+        for x in range(0, len(todas_sprites_knight)):
+            self.sprites.append(todas_sprites_knight[x])
+        self.current_sprite = 0    
+        self.image = self.sprites[self.current_sprite]
+        self.rect = self.image.get_rect()
+        self.rect.center = [self.x, self.y]
+        
+    
+class Knight(pygame.sprite.Sprite):
+    def __init__(self, pos_x, pos_y, movement, is_clicked):
         super().__init__()
         self.sprites = []
         self.x = pos_x
@@ -26,7 +47,6 @@ class Knight(pygame.sprite.Sprite):
         self.target_set = 0
         self.click = 0
         self.movement = 2400
-        self.attack = 0
         self.target_dest = [self.x, self.y]
         for x in range(0, len(todas_sprites_knight)):
             self.sprites.append(todas_sprites_knight[x])
@@ -50,23 +70,15 @@ class Knight(pygame.sprite.Sprite):
         if idle:
             self.current_sprite += 0.06
             self.image = self.sprites[int(self.current_sprite)]
-            if self.current_sprite >= (8 - 0.03):
+            if self.current_sprite >= (8- 0.03):
                 self.current_sprite = 0
         
-        if self.select_char == 1 and self.target_set ==  1 and self.click == 1 and self.attack == 0:
-            for tile_object in tmx_map.tmxdata.objects:
-                if tile_object.name == 'wall':
-                    wall = pygame.Rect(tile_object.x, tile_object.y, tile_object.width, tile_object.height)
-                    if self.rect.colliderect(wall) and self.is_vertical == True:
-                        self.yspeed = 0
-                    elif self.rect.colliderect(wall):
-                        self.xspeed = 0
-                    
+        if self.select_char == 1 and self.target_set ==  1 and self.click == 1:
+            
             if self.target_dest[1] > self.y:
                 self.movement -= 40
                 self.current_sprite += 0.05
-                self.y += self.yspeed
-                self.movement -= 1
+                self.y += 2
                 self.image = self.sprites[int(self.current_sprite)+9]
                 self.rect.center = [self.x, self.y]
                 if self.current_sprite >= 17:
@@ -75,40 +87,40 @@ class Knight(pygame.sprite.Sprite):
             elif self.target_dest[0] > self.x:
                 self.movement -= 40
                 self.current_sprite += 0.05
-                self.x += self.xspeed
-                self.movement -= 1
+                self.x += 2
                 self.image = self.sprites[int(self.current_sprite)+17]
                 self.rect.center = [self.x, self.y]
                 if self.current_sprite >= 26:
                     self.current_sprite = 17
-                self.is_vertical = False
-            
-            elif self.target_dest[0] < self.x:
-                self.movement -= 40
-                self.current_sprite += 0.05
-                self.x -= self.xspeed
-                self.image = self.sprites[int(self.current_sprite)+26]
-                self.rect.center = [self.x, self.y]
-                if self.current_sprite >= 35:
-                    self.current_sprite = 26
-                self.is_vertical = False
             
             elif self.target_dest[1] < self.y:
                 self.movement -= 40
                 self.current_sprite += 0.05
-                self.y -self.yspeed
+                self.y -= 2
                 self.image = self.sprites[int(self.current_sprite)+35]
                 self.rect.center = [self.x, self.y]
                 if self.current_sprite >= 44:
                     self.current_sprite = 35
             
-            if self.movement <= 0:
+            elif self.target_dest[0] < self.x:
+                self.movement -= 40
+                self.current_sprite += 0.05
+                self.x -= 2
+                self.image = self.sprites[int(self.current_sprite)+26]
+                self.rect.center = [self.x, self.y]
+                if self.current_sprite >= 35:
+                    self.current_sprite = 26
+            
+            
+            if self.movement <= 0 or self.target_dest == [self.x, self.y]:
                 self.select_char = 0
                 self.target_set = 0
-                self.movement = 0
                 self.click = 0
-            
-            
+                self.movement = 2400
+                
+    def is_clicked(self):
+        return pygame.mouse.get_pressed()[0] and self.rect.collidepoint(pygame.mouse.get_pos())
+                
 #         if pygame.mouse.get_pressed()[0] and self.rect.collidepoint(pygame.mouse.get_pos()) and self.click == 0 and self.movement == 0:
 #             self.click = 0
 #             self.movement = 0
@@ -119,6 +131,37 @@ class Knight(pygame.sprite.Sprite):
 #             if self.current_sprite >= 50:
 #                 self.current_sprite = 44
             
-                    
-    def is_clicked(self):
-        return pygame.mouse.get_pressed()[0] and self.rect.collidepoint(pygame.mouse.get_pos())
+            
+# class IgMenu(pygame.sprite.Sprite): #in-game menu
+#     def __init__(self, width, height, color):
+#         pygame.sprite.Sprite.__init__(self)
+#         self.width = width
+#         self.height = height
+#         self.color = color
+#         self.x = width
+#         self.y = height
+#         self.image = (pygame.image.load('thanos2.jpeg'))
+        #self.rect = self.image.get_rect()
+        #self.rect.center = [self.x, self.y]
+        #self.attack = Knight.attack
+        #IgMenu.done = False
+    
+#     def update(self):
+#         mouse = pygame.mouse.get_pressed()
+#         if Knight.attack == 1:
+#             self.x = 500
+#             self.y = 500
+#             self.rect.center = [500, 500]
+#         
+#         if mouse[0] and pygame.mouse.get_pressed()[0] and self.rect.collidepoint(pygame.mouse.get_pos()):
+#             print('chungus')
+#             IgMenu.done = True
+
+#m1 = IgMenu(30, 30, blue)
+#gm.add(m1)
+
+        
+
+            
+             
+        
