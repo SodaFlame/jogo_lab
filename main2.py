@@ -5,7 +5,6 @@ from PPlay.collision import *
 from objects2 import *
 from config2 import *
 from sprites2 import *
-import math
 
 janela = Window(width, height)
 teclado = Window.get_keyboard()
@@ -13,6 +12,7 @@ mouse = Window.get_mouse()
 
 right = False
 left = False
+collided = False
 
 while True:
     
@@ -34,16 +34,25 @@ while True:
             
         jogador.x = jogador.x - velX * janela.delta_time()
     
-    if jogador.collided(mapa1) == False:
-        jogador.y += 80 * janela.delta_time()
     
-    if jogador.collided(mapa1) and (teclado.key_pressed("space")):
-        jogador.y -= 500*janela.delta_time()
+    if jogador.collided(mapa1) or jogador.collided(p1) or jogador.collided(p2):
+        collided = True
+        if (teclado.key_pressed("space")):
+            jogador.y -= 40
+            jogador.y -= 500*janela.delta_time()
+    
+    if jogador.collided(mapa1) == False and jogador.collided(p1) == False and jogador.collided(p2) == False:
+        jogador.y += 30*janela.delta_time()
+    
+           
     
     janela.set_background_color((0, 0, 0))
     jogador.draw()
     jogador.update()
-    mapa1.draw()
+    
+    for x in range(len(objetos)):
+        objetos[x].draw()
+    
     janela.update()
     
 
