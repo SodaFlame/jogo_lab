@@ -1,3 +1,6 @@
+#implement a turn-based system (OK)
+#implement basic AI (to-do)
+
 from PPlay.window import *
 from PPlay.gameimage import *
 from PPlay.sprite import *
@@ -16,8 +19,14 @@ def is_clicked():
         if mouse.is_over_object(aliados[x][0]) and  mouse.is_button_pressed(1):
             return aliados[x]
 
+def enemy_move():
+    for x in range(len(inimigos)):
+        if inimigos[x][4] == 1:
+            return inimigos[x]
+
 lv1 = False
 clicked = False
+amount_of_moves = len(aliados)
 
 while True: #main loop
     
@@ -26,10 +35,10 @@ while True: #main loop
     if lv1:
         #control characters
                 
-        if is_clicked() != None:
+        if is_clicked() != None and amount_of_moves > 0:                         #Vez do jogador
             selected.append(is_clicked())
         
-        if len(selected) > 0:
+        if len(selected) > 0 and selected[0][4] == 1:
             
             if (teclado.key_pressed("w")) and k1.y > 0:
                 selected[0][0].y = selected[0][0].y - velK * janela.delta_time()
@@ -47,20 +56,46 @@ while True: #main loop
                 moveK -= 10
             
             for x in range(len(inimigos)):
-                if math.sqrt((selected[0][0].x - inimigos[x][0].x)**2 + (selected[0][0].y - inimigos[x][0].y)**2) < 60 and mouse.is_button_pressed(1): #colocar animacao de ataque aqui
-                    inimigos[x][1] -= (selected[0][2])/2       #quem foi atacado perde hp
-                    print(inimigos[x][1])
-                    
-                    if inimigos[x][1] <= 0:
-                        inimigos.remove(inimigos[x])
-                    break
-                    
+                if selected[0][0].collided(inimigos[x][0]):
+                    enemy_selected.append(inimigos[x])
             
+            if len(enemy_selected) > 0:
+                if math.sqrt((selected[0][0].x - enemy_selected[0][0].x)**2 + (selected[0][0].y - enemy_selected[0][0].y)**2) < 60 and mouse.is_button_pressed(1): #colocar animacao de ataque aqui
+                    enemy_selected[0][1] -= (selected[0][2])       #quem foi atacado perde hp
+                    print(enemy_selected[0][1])
+                    amount_of_moves -= 1
+                    selected[0][4] = 0
+                    selected.clear()
+                
+                    if enemy_selected[0][1] <= 0:                    #se o hp cair pra 0, remover o personagem da lista
+                        inimigos.remove(enemy_selected[0])
+                    
+                    enemy_selected.clear()
+                       
             if mouse.is_button_pressed(3):
                 selected.clear()
+                
+        if amount_of_moves <= 0:                               #Vez do inimigo
+            for x in range(len(inimigos)):
+                if inimigos[x][4] == 1:
+                    enemy_selected.append(inimigos[x])
+                    
             
+            for x in range(len(aliados)):
+                if enemy_selected[0][0].x > aliados[x][0].x:
+                    enemy_selected[0][0].x -= velK*janela.delta_time()
+                if enemy_selected[0][0].x < aliados[x][0].x:
+                    enemy_selected[0][0].x += velK*janela.delta_time()
+                if enemy_selected[0][0].y < aliados[x][0].y:
+                    enemy_selected[0][0].y += velK*janela.delta_time()
+                if enemy_selected[0][0].y > aliados[x][0].y:
+                    enemy_selected[0][0].y -= velK*janela.delta_time()
+                    
+                
+            amount_of_moves = len(aliados)
+            for x in range(len(aliados)):
+                aliados[x][4] = 1
             
-        
         #draw everything
                 
         mapa1.draw()
