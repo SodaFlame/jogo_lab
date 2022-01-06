@@ -1,4 +1,12 @@
 width = int(1920)
 height = int(1080)
 velX = 200
+velX2 = 200
+velY = 5
+velY2 = 5
 grav = 20
+grav2 = 20
+gravL = 300
+jump_timer = 0
+jump_timer2 = 0
+jump_limit = 400
