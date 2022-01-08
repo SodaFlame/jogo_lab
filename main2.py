@@ -17,6 +17,9 @@ left2 = False
 
 while True:
     
+    atk_counter += janela.delta_time()                 #timer pros ataques dos personagens
+    atk_counter2 += janela.delta_time()
+    
     #movimento
     
     if (teclado.key_pressed("d")) and jogador.x < width:                      #esses ifs servem pra atualizar a animacao do personagem
@@ -38,9 +41,11 @@ while True:
         jogador.x = jogador.x - velX * janela.delta_time()
     
     if jogador.collided(jogador2):
-        if teclado.key_pressed('h') and jogador.x > jogador2.x:
+        if teclado.key_pressed('h') and jogador.x > jogador2.x and atk_counter >= 0.8:
+            atk_counter = 0
             jogador2.x -= 50
-        elif teclado.key_pressed('h') and jogador.x < jogador2.x:
+        elif teclado.key_pressed('h') and jogador.x < jogador2.x and atk_counter >= 0.8:
+            atk_counter = 0
             jogador2.x += 50
     
     #jogador2
@@ -64,7 +69,7 @@ while True:
     
     
     
-    if jogador.y > height or jogador.x > width or jogador.x < 0:
+    if jogador.y > height or jogador.x > width or jogador.x < 0:                   #reseta o jogador se ele cair pra fora do mapa
         jogador.y = 500
         jogador.x = width/2
         grav = 20

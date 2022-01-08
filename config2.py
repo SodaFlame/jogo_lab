@@ -10,3 +10,5 @@ gravL = 300
 jump_timer = 0
 jump_timer2 = 0
 jump_limit = 400
+atk_counter = 0
+atk_counter2 = 0
