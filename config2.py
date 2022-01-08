@@ -4,6 +4,7 @@ velX = 200
 velX2 = 200
 velY = 5
 velY2 = 5
+velFl = 100
 grav = 20
 grav2 = 20
 gravL = 300
