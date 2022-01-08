@@ -19,15 +19,25 @@ p2 = GameImage('pillar4.png')
 p2.x = width - 100
 p2.y = 600
 
-fl1 = GameImage('flutuante1.png')
-fl1.x = 250                            #entre o pilar da esquerda e a plataforma de cima
-fl1.y = 600
+p3 = GameImage('Pillar1.png')
+p3.x = 200
+p3.y = 700
 
-fl2 = GameImage('flutuante1.png')
-fl2.x = 1450                       
-fl2.y = 600
+p4 = GameImage('Pillar1.png')
+p4.x = 400
+p4.y = 800
 
-objetos = [plat1, fl1, fl2, plat2, p1, p2]
+p5 = GameImage('Pillar1.png')
+p5.x = 1450
+p5.y = 800
+
+p6 = GameImage('Pillar1.png')
+p6.x = 1650
+p6.y = 700
+
+selected_obj = []
+selected_obj2 = []
+objetos = [plat1, plat2, p1, p2, p3, p4, p5, p6]
 
 
 

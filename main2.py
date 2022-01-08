@@ -88,104 +88,88 @@ while True:
     
     
     #colisoes e outros movimentos
-        
-    if (jogador.collided(plat1) and (jogador.y + 60) < plat1.y) or (jogador.collided(plat2) and (jogador.y + 60) < plat2.y) or (jogador.collided(p1) and (jogador.y + 60) < p1.y) or (jogador.collided(p2) and (jogador.y + 60) < p2.y):     #60 eh o offset do bloco principal, sla por que
-        grav = 20
-        jump_timer = 0
-        
-        if (teclado.key_pressed("space")):
-            while jump_timer < jump_limit:
-                jump_timer += 0.01
-                jogador.y -= velY * janela.delta_time() * 0.02
-            
     
-    elif (jogador.collided(plat1) and (jogador.y + 70) < plat1.y) == False:
-        if grav < gravL:
-            grav *= 1.04
-            
-        jogador.y += grav*janela.delta_time()
-                 
+    if len(selected_obj) == 0:
+        for x in range(len(objetos)):
+            if jogador.collided(objetos[x]):
+                selected_obj.append(objetos[x])
+                if jogador.y + 50 < selected_obj[0].y:
+                    grav = 20
+                    jump_timer = 0
     
-    if jogador.collided(plat1) or jogador.collided(p1) or jogador.collided(p2):
-        airbone = False
-        if (jogador.y + 60 > plat1.y and jogador.x < plat1.x) or (jogador.y + 60 > p2.y and jogador.x > p2.x - p2.width):      #isso testa pra ver se ele ta de baixo da plataforma, e se ele ta indo contra a parede
+    if len(selected_obj) > 0:
+        if jogador.collided(selected_obj[0]) and jogador.y + 50 < selected_obj[0].y:
+            if (teclado.key_pressed("space")):
+                while jump_timer < jump_limit:
+                    jump_timer += 0.01
+                    jogador.y -= velY * janela.delta_time() * 0.2
+        
+                    
+        if (jogador.y + 50  > selected_obj[0].y and jogador.x < selected_obj[0].x):      #isso testa pra ver se ele ta de baixo da plataforma, e se ele ta indo contra a parede
             velX = 0
             jogador.x -= 10  #impede patinacao
-        elif (jogador.y + 60 > plat1.y and jogador.x > plat1.x + plat1.width-70) or (jogador.y + 60 > p2.y and jogador.x < p2.x + p2.width):        #mesma coisa soq pro outro lado
-            velX = 0
-            jogador.x += 10
-    
-    if jogador.collided(plat2):                                                  #se eu n lidar com as colisoes das 2 plataformas separadamente da patinacao, sabe-se la pq
-        airbone = False
-        if (jogador.y + 60 > plat2.y and jogador.x < plat2.x):
-            velX = 0
-            jogador.x -= 10
-        elif (jogador.y + 60 > plat2.y and jogador.x > plat2.x + plat1.width-70):
-            velX = 0
-            jogador.x += 10
-            
         
-    if jogador.collided(plat1) == False and jogador.collided(plat2) == False and jogador.collided(p1) == False  and  jogador.collided(p2) == False:         #n tem como passar isso pra uma funcao n?
-        airbone = True
-        velX = 200
+        if (jogador.y + 50 > selected_obj[0].y and jogador.x > selected_obj[0].x):   
+            velX = 0
+            jogador.x += 10
+        
+        if jogador.y + 60 < selected_obj[0].y:
+            if grav < gravL:
+                grav *= 1.04
+            jogador.y += janela.delta_time()*grav
+        
+        if jogador.collided(selected_obj[0]) == False:
+            velX = 200
+            selected_obj.clear()
     
-#     if jogador.collided(fl1) and (jogador.y + 20 < fl1.y):
-#         if 
-#             
+    if len(selected_obj) == 0:
+        if grav < gravL:
+            grav *= 1.04
+        jogador.y += janela.delta_time()*grav 
     
     
     #jogador2
-    if (jogador2.collided(plat1) and (jogador2.y + 60) < plat1.y) or (jogador2.collided(plat2) and (jogador2.y + 60) < plat2.y) or (jogador2.collided(p1) and (jogador2.y + 60) < p1.y) or (jogador2.collided(p2) and (jogador2.y + 60) < p2.y):     #60 eh o offset do bloco principal, sla por que
-        grav2 = 20
-        jump_timer2 = 0
         
-        if (teclado.key_pressed("j")):
-            while jump_timer2 < jump_limit:
-                jump_timer2 += 0.01
-                jogador2.y -= velY2 * janela.delta_time() * 0.02
-            
+    if len(selected_obj2) == 0:
+        for x in range(len(objetos)):
+            if jogador2.collided(objetos[x]):
+                selected_obj2.append(objetos[x])
+                if jogador2.y + 60 < selected_obj2[0].y:
+                    grav2 = 20
+                    jump_timer2 = 0
+        
+    if len(selected_obj2) > 0:
+        if jogador2.collided(selected_obj2[0]) and jogador2.y + 50 < selected_obj2[0].y:
+            if (teclado.key_pressed("j")):
+                while jump_timer2 < jump_limit:
+                    jump_timer2 += 0.01
+                    jogador2.y -= velY2 * janela.delta_time() * 0.2
+        
+                    
+        if (jogador2.y + 50  > selected_obj2[0].y and jogador2.x < selected_obj2[0].x):     
+            velX2 = 0
+            jogador2.x -= 10 
+        
+        if (jogador2.y + 50 > selected_obj2[0].y and jogador2.x > selected_obj2[0].x):   
+            velX2 = 0
+            jogador2.x += 10
+        
+        if jogador2.y + 60 < selected_obj2[0].y:
+            if grav2 < gravL:
+                grav2 *= 1.04
+            jogador2.y += janela.delta_time()*grav2
+        
+        if jogador2.collided(selected_obj2[0]) == False:
+            velX2 = 200
+            selected_obj2.clear()
     
-    elif (jogador2.collided(plat1) and (jogador2.y + 70) < plat1.y) == False:
+    if len(selected_obj2) == 0:
         if grav2 < gravL:
             grav2 *= 1.04
-            
-        jogador2.y += grav2*janela.delta_time()
-                 
+        jogador2.y += janela.delta_time()*grav2
     
-    if jogador2.collided(plat1) or jogador2.collided(p1) or jogador2.collided(p2):
-        airbone = False
-        if (jogador2.y + 60 > plat1.y and jogador2.x < plat1.x) or (jogador2.y + 60 > p2.y and jogador2.x > p2.x - p2.width):     
-            velX2 = 0
-            jogador2.x -= 10  #impede patinacao
-        elif (jogador2.y + 60 > plat1.y and jogador2.x > plat1.x + plat1.width-70) or (jogador2.y + 60 > p2.y and jogador2.x < p2.x + p2.width):        
-            velX2 = 0
-            jogador2.x += 10
     
-    if jogador2.collided(plat2):                                                 
-        airbone = False
-        if (jogador2.y + 60 > plat2.y and jogador2.x < plat2.x):
-            velX2 = 0
-            jogador2.x -= 10
-        elif (jogador2.y + 60 > plat2.y and jogador2.x > plat2.x + plat1.width-70):
-            velX2 = 0
-            jogador2.x += 10
         
-        
-    if jogador2.collided(plat1) == False and jogador2.collided(plat2) == False and jogador2.collided(p1) == False  and  jogador2.collided(p2) == False:         
-        airbone = True
-        velX2 = 200
-    
-    #movimentacao de objetos
-    
-    fl1.y -= janela.delta_time() * velFl
-    fl2.y += janela.delta_time() * velFl
-    
-    if fl1.y <= 200 or fl1.y >= 1000:
-        velFl *= -1
-    
-    
-    
-    
 
            
     janela.set_background_color((0, 0, 0))
