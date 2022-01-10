@@ -46,9 +46,19 @@ while True:
         if teclado.key_pressed('h') and jogador.x > jogador2.x and atk_counter >= 0.8 and airbone == False:
             atk_counter = 0
             jogador2.x -= 50
+            jogador2HP -= 30
         elif teclado.key_pressed('h') and jogador.x < jogador2.x and atk_counter >= 0.8 and airbone == False:
             atk_counter = 0
             jogador2.x += 50
+            jogador2HP -= 30
+        if teclado.key_pressed('j') and jogador.x > jogador2.x and atk_counter >= 1.2 and airbone == False:
+            atk_counter = 0
+            jogador2.x -= 80
+            jogador2HP -= 50
+        elif teclado.key_pressed('j') and jogador.x < jogador2.x and atk_counter >= 1.2 and airbone == False:
+            atk_counter = 0
+            jogador2.x += 80
+            jogador2HP -= 50
     
     #jogador2
     if (teclado.key_pressed("right")) and jogador2.x < width:                      #esses ifs servem pra atualizar a animacao do personagem
@@ -78,12 +88,13 @@ while True:
         velX = 200
         velY = 5
     
-    if jogador2.y > height or jogador2.x > width or jogador2.x < 0:
+    if jogador2.y > height or jogador2.x > width or jogador2.x < 0 or jogador2HP <= 0:
         jogador2.y = 500
         jogador2.x = width/2
         grav2 = 20
         velX2 = 200
         velY2 = 5
+        jogador2HP = 1000
     
     
     
@@ -99,6 +110,7 @@ while True:
     
     if len(selected_obj) > 0:
         if jogador.collided(selected_obj[0]) and jogador.y + 50 < selected_obj[0].y:
+            airbone = False
             if (teclado.key_pressed("space")):
                 while jump_timer < jump_limit:
                     jump_timer += 0.01
@@ -125,7 +137,8 @@ while True:
     if len(selected_obj) == 0:
         if grav < gravL:
             grav *= 1.04
-        jogador.y += janela.delta_time()*grav 
+        jogador.y += janela.delta_time()*grav
+        airbone = True
     
     
     #jogador2
@@ -139,8 +152,9 @@ while True:
                     jump_timer2 = 0
         
     if len(selected_obj2) > 0:
+        airbone2 = False
         if jogador2.collided(selected_obj2[0]) and jogador2.y + 50 < selected_obj2[0].y:
-            if (teclado.key_pressed("j")):
+            if (teclado.key_pressed("l")):
                 while jump_timer2 < jump_limit:
                     jump_timer2 += 0.01
                     jogador2.y -= velY2 * janela.delta_time() * 0.2
@@ -167,6 +181,9 @@ while True:
         if grav2 < gravL:
             grav2 *= 1.04
         jogador2.y += janela.delta_time()*grav2
+        airbone2 = True
+    
+    print(airbone)
     
     
         

@@ -13,3 +13,5 @@ jump_timer2 = 0
 jump_limit = 400
 atk_counter = 0
 atk_counter2 = 0
+jogadorHP = 1000
+jogador2HP = 1000

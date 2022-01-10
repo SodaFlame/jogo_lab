@@ -3,6 +3,8 @@ from PPlay.gameimage import *
 from PPlay.sprite import *
 from config2 import *
 
+#mapa
+
 plat1 = GameImage("plat2.png")
 plat1.x = width/2 - plat1.width/2
 plat1.y = 600
@@ -34,6 +36,10 @@ p5.y = 800
 p6 = GameImage('Pillar1.png')
 p6.x = 1650
 p6.y = 700
+
+#power-ups
+
+pw_atk = GameImage('pw1.png')
 
 selected_obj = []
 selected_obj2 = []
