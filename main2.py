@@ -5,6 +5,7 @@ from PPlay.collision import *
 from objects2 import *
 from config2 import *
 from sprites2 import *
+import random
 
 janela = Window(width, height)
 teclado = Window.get_keyboard()
@@ -19,6 +20,7 @@ airbone2 = False
 
 while True:
     
+    time_elapsed += janela.delta_time()
     atk_counter += janela.delta_time()                 #timer pros ataques dos personagens
     atk_counter2 += janela.delta_time()
     
@@ -183,10 +185,40 @@ while True:
         jogador2.y += janela.delta_time()*grav2
         airbone2 = True
     
-    print(airbone)
-    
-    
+    #spawn powerups
         
+    if time_elapsed > 3 and amount_of_pw < pw_limit:
+        if len(pw_random_coords) == 0:
+            pw_random_coords = (random.sample(range(0, len(pw_coords)-1), len(pw_coords)-1))   #determina as coordenadas do powerup, preciso desse controle pra impedir coordenada repetida
+        
+        pw_random = random.randint(0, len(pw_list)-1)                  #decide qual powerup vai spawnar   
+        pw_spawned.append(pw_list[pw_random])
+        pw_spawned.append(pw_coords[pw_random_coords[current_pw]])
+            
+        time_elapsed = 0
+        amount_of_pw += 1          #controle pra quantidade de powerups
+        current_pw += 1
+        if current_pw == pw_limit:
+            current_pw = 0
+    
+    #interaction with powerups (ta tando erro)
+    
+#     if amount_of_pw > 0:
+#         for x in range(len(pw_spawned)):
+#             if x % 2 == 0:
+#                 if jogador.collided(pw_spawned[x]):
+#                     pw_collected.append(pw_spawned[x])
+#                     pw_collected.append(pw_spawned[x+1])
+#                     break
+#     
+#     if len(pw_collected) > 0:
+#         print("atk picked up")
+#         pw_spawned.remove(pw_collected[0])
+#         pw_spawned.remove(pw_collected[1])
+#         
+#         amount_of_pw -= 1
+#         pw_collected.clear()
+                   
 
            
     janela.set_background_color((0, 0, 0))
@@ -197,6 +229,13 @@ while True:
     
     for x in range(len(objetos)):
         objetos[x].draw()
+    
+    if len(pw_spawned) > 0:
+        for x in range(len(pw_spawned)):
+            if x % 2 == 0:                    #como eu to botando os powerups e coordenadas em uma lista so, eu preciso disso pra garantir que ele so chama o draw() pra GameImage
+                pw_spawned[x].draw()
+                pw_spawned[x].x = pw_spawned[x+1][0] 
+                pw_spawned[x].y = pw_spawned[x+1][1] - 64
     
     janela.update()
     

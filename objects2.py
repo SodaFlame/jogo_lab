@@ -37,13 +37,19 @@ p6 = GameImage('Pillar1.png')
 p6.x = 1650
 p6.y = 700
 
-#power-ups
-
-pw_atk = GameImage('pw1.png')
-
 selected_obj = []
 selected_obj2 = []
 objetos = [plat1, plat2, p1, p2, p3, p4, p5, p6]
+
+#power-ups
+
+pw_atk = GameImage('pw1.png')
+pw_hp = GameImage('pw2.png')
+
+pw_list = [pw_atk, pw_hp]
+pw_coords = [[plat1.x, plat1.y],[plat2.x, plat2.y],[p1.x, p1.y],[p2.x, p2.y],[p3.x, p3.y],[p4.x, p4.y],[width/2, p1.y],[width/2, p2.y]]
+pw_spawned = []
+pw_collected = []
 
 
 
