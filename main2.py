@@ -18,6 +18,7 @@ left2 = False
 airbone = False                     #essas 2 ultimas booleanas determinam se o personagem ta no ar ou n
 airbone2 = False
 jumping = False
+lv2 = 1
 
 while True:
     
@@ -106,7 +107,7 @@ while True:
     
     #colisoes e outros movimentos
     
-    if len(selected_obj) == 0:
+    if len(selected_obj) == 0:                
         for x in range(len(objetos)):
             if jogador.collided(objetos[x]):
                 selected_obj.append(objetos[x])
@@ -114,7 +115,7 @@ while True:
                     grav = 20
                     jump_timer = 0
     
-    if len(selected_obj) > 0:
+    if len(selected_obj) > 0:                                                            #esse pulo ta me matando. Eu n sei pq ele ta indo instantaneamente, isso ta fodendo cm as colisoes todas, e fica feio
         if jogador.collided(selected_obj[0]) and jogador.y + 50 < selected_obj[0].y:
             airbone = False
             if (teclado.key_pressed("space")):
@@ -125,6 +126,7 @@ while True:
         
         if (jogador.y + jogador.height) > (selected_obj[0].y + selected_obj[0].height):
             velY = 0
+            jump_timer = jump_limit
             jogador.y += 10
                     
         elif (jogador.y + 50  > selected_obj[0].y and jogador.x < selected_obj[0].x):     #isso testa pra ver se ele ta de baixo da plataforma, e se ele ta indo contra a pared            velX = 0

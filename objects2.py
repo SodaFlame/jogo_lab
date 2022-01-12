@@ -3,7 +3,9 @@ from PPlay.gameimage import *
 from PPlay.sprite import *
 from config2 import *
 
-#mapa
+lv2 = 1
+
+#lv1
 
 plat1 = GameImage("plat2.png")
 plat1.x = width/2 - plat1.width/2
@@ -41,8 +43,6 @@ selected_obj = []
 selected_obj2 = []
 objetos = [plat1, plat2, p1, p2, p3, p4, p5, p6]
 
-#power-ups
-
 pw_atk = GameImage('pw1.png')
 pw_hp = GameImage('pw2.png')
 
@@ -51,6 +51,34 @@ pw_coords = [[plat1.x, plat1.y],[plat2.x, plat2.y],[p1.x, p1.y],[p2.x, p2.y],[p3
 pw_spawned = []
 pw_collected = []
 pw_collected2 = []
+
+#lvl2
+
+if lv2 == 1:
+    
+    plat1 = GameImage('plat1.png')
+    plat1.x = width/2 - plat1.width/2
+    plat1.y = 650
+    
+    p1 = GameImage('small_plat1.png')
+    p1.x = plat1.x + 50
+    p1.y = 450
+    
+    p2 = GameImage('small_plat1.png')
+    p2.x = (plat1.x + plat1.width) - 50 - p2.width
+    p2.y = 450
+    
+    p3 = GameImage('small_plat1.png')
+    p3.x = plat1.x + plat1.width/2 - p3.width/2
+    p3.y = 300
+    
+    
+    objetos = [plat1, p1, p2, p3]
+
+
+
+
+    
 
 
 
