@@ -10,16 +10,6 @@ import random
 janela = Window(width, height)
 teclado = Window.get_keyboard()
 mouse = Window.get_mouse()
-fundo = GameImage ("preto.png")
-jogar = Sprite("jogar.png", frames=1)
-jogar.x = janela.width/2 - jogar.width/2
-jogar.y = 200
-configuracoes = Sprite("configuracoes.png", frames=1)
-configuracoes.x = janela.width/2 - configuracoes.width/2
-configuracoes.y = 250
-sair = Sprite("sair.png", frames=1)
-sair.x = janela.width/2 - sair.width/2
-sair.y = 300
 
 right1 = False
 right2 = False
@@ -32,15 +22,11 @@ lv2 = 1
 
 while True:
     
-    fundo.draw()
+    janela.set_background_color((0, 0, 0))
     jogar.draw()
     configuracoes.draw()
     sair.draw()
     janela.update()
-
-    time_elapsed += janela.delta_time()
-    atk_counter += janela.delta_time()                 #timer pros ataques dos personagens
-    atk_counter2 += janela.delta_time()
     
     #movimento
     if mouse.is_over_object(sair) and mouse.is_button_pressed(1):
@@ -52,8 +38,11 @@ while True:
                 break
     if mouse.is_over_object(jogar) and mouse.is_button_pressed(1):
         while True:
-            fundo.draw()
-            janela.update()
+            
+            time_elapsed += janela.delta_time()
+            atk_counter += janela.delta_time()                 #timer pros ataques dos personagens
+            atk_counter2 += janela.delta_time()
+            janela.set_background_color((0, 0, 0))
             if teclado.key_pressed('ESC'):
                 break
             if (teclado.key_pressed("d")) and jogador.x < width:                      #esses ifs servem pra atualizar a animacao do personagem
@@ -92,6 +81,22 @@ while True:
                     jogador2.x += 80
                     jogador2HP -= 50*atk1
             
+            #healthbar
+            
+            if 1000 >= jogadorHP >= 800:
+                healthbar1.set_curr_frame(5)
+            if 800 > jogadorHP > 600:
+                healthbar1.set_curr_frame(3)
+            if 600 > jogadorHP > 400:
+                healthbar1.set_curr_frame(2)
+            if 400 > jogadorHP > 200:
+                healthbar1.set_curr_frame(1)
+            if 200 > jogadorHP > 0:
+                healthbar1.set_curr_frame(0)
+                
+            
+                
+            
             #jogador2
             if (teclado.key_pressed("right")) and jogador2.x < width:                      #esses ifs servem pra atualizar a animacao do personagem
                 left2 = False
@@ -110,6 +115,17 @@ while True:
                     left2 = True
                     
                 jogador2.x = jogador2.x - velX * janela.delta_time()
+            
+            if 1000 >= jogador2HP >= 800:
+                healthbar2.set_curr_frame(5)
+            if 800 > jogador2HP > 600:
+                healthbar2.set_curr_frame(3)
+            if 600 > jogador2HP > 400:
+                healthbar2.set_curr_frame(2)
+            if 400 > jogador2HP > 200:
+                healthbar2.set_curr_frame(1)
+            if 200 > jogador2HP > 0:
+                healthbar2.set_curr_frame(0)
             
             
             
@@ -139,28 +155,26 @@ while True:
                 for x in range(len(objetos)):
                     if jogador.collided(objetos[x]):
                         selected_obj.append(objetos[x])
-                        if jogador.y + 50 < selected_obj[0].y:
+                        if jogador.y + 40 < selected_obj[0].y:
                             grav = 20
                             jump_timer = 0
             
             if len(selected_obj) > 0:                                                            #esse pulo ta me matando. Eu n sei pq ele ta indo instantaneamente, isso ta fodendo cm as colisoes todas, e fica feio
                 if jogador.collided(selected_obj[0]) and jogador.y + 50 < selected_obj[0].y:
                     airbone = False
+                    jumping = False
                     if (teclado.key_pressed("space")):
-                        while jump_timer < jump_limit:
-                            jump_timer += 0.01
-                            jogador.y -= velY * 0.0015
+                            jumping = True
                 
-                
-                if (jogador.y + jogador.height) > (selected_obj[0].y + selected_obj[0].height):
+                if (jogador.y + jogador.height/6) > (selected_obj[0].y + selected_obj[0].height):
                     velY = 0
                     jump_timer = jump_limit
-                    jogador.y += 10
+                    jogador.y += 20
                             
-                elif (jogador.y + 50  > selected_obj[0].y and jogador.x < selected_obj[0].x):     #isso testa pra ver se ele ta de baixo da plataforma, e se ele ta indo contra a pared            velX = 0
+                if (jogador.y + 50  > selected_obj[0].y and jogador.x < selected_obj[0].x) and jumping == False:     #isso testa pra ver se ele ta de baixo da plataforma, e se ele ta indo contra a pared            velX = 0
                     jogador.x -= 10  #impede patinacao
                 
-                elif (jogador.y + 50 > selected_obj[0].y and jogador.x > selected_obj[0].x):  
+                if (jogador.y + 50 > selected_obj[0].y and jogador.x > selected_obj[0].x) and jumping == False:  
                     velX = 0
                     jogador.x += 10
                 
@@ -174,11 +188,18 @@ while True:
                     velX = 200
                     selected_obj.clear()
             
-            if len(selected_obj) == 0:
+            if len(selected_obj) == 0 and jumping == False:
                 if grav < gravL:
                     grav *= 1.04
                 jogador.y += janela.delta_time()*grav
                 airbone = True
+            
+            if jumping:
+                jump_timer += 10
+                jogador.y -= 20*janela.delta_time()*25
+                if jump_timer >= jump_limit:
+                    jumping = False
+                    jump_timer = 0
             
             
             #jogador2
@@ -311,6 +332,9 @@ while True:
             jogador.update()
             jogador2.draw()
             jogador2.update()
+            
+            healthbar1.draw()
+            healthbar2.draw()
             
             for x in range(len(objetos)):
                 objetos[x].draw()

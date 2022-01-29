@@ -74,6 +74,7 @@ if lv2 == 1:
     
     
     objetos = [plat1, p1, p2, p3]
+    pw_coords = [[plat1.x, plat1.y],[p1.x, p1.y],[p2.x, p2.y],[p3.x, p3.y]]
 
 
 
