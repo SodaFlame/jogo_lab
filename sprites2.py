@@ -1,7 +1,7 @@
 from PPlay.window import *
 from PPlay.gameimage import *
 from PPlay.sprite import *
-from config_trabalho import *
+from config2 import *
 
 #bonecos
 
@@ -36,3 +36,25 @@ healthbar1 = Sprite("healthbar_nobg.png", frames = 6)
 
 healthbar2 = Sprite("healthbar_nobg.png", frames = 6)
 healthbar2.x = width - healthbar2.width
+
+heartbar = []
+heartbar2 = []
+heartbar3 = []
+heartbar4 = []
+
+for x in range(jogador_vida):
+    heartbar.append(GameImage('full_heart.png'))
+    heartbar[x].x = 10 + (heartbar[x].width*1.1*x)
+    heartbar[x].y = 40
+    heartbar2.append(GameImage('empty_heart.png'))
+    heartbar2[x].x = 10 + (heartbar[x].width*1.1*x)
+    heartbar2[x].y = 40
+
+for x in range(jogador2_vida):
+    heartbar3.append(GameImage('full_heart.png'))
+    heartbar3[x].x = width - 10 - heartbar3[x].width - (heartbar3[x].width*1.1*x)
+    heartbar3[x].y = 40
+    heartbar4.append(GameImage('empty_heart.png'))
+    heartbar4[x].x = width - 10 - heartbar3[x].width - (heartbar3[x].width*1.1*x)
+    heartbar4[x].y = 40
+    

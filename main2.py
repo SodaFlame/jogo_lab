@@ -83,16 +83,16 @@ while True:
             
             #healthbar
             
-            if 1000 >= jogadorHP >= 800:
+            if 1000 >= jogadorHP >= 800:         #as frames tao bugadas, nao me pergunte pq
                 healthbar1.set_curr_frame(5)
             if 800 > jogadorHP > 600:
-                healthbar1.set_curr_frame(3)
+                healthbar1.set_curr_frame(4)
             if 600 > jogadorHP > 400:
-                healthbar1.set_curr_frame(2)
+                healthbar1.set_curr_frame(3)
             if 400 > jogadorHP > 200:
-                healthbar1.set_curr_frame(1)
+                healthbar1.set_curr_frame(2)
             if 200 > jogadorHP > 0:
-                healthbar1.set_curr_frame(0)
+                healthbar1.set_curr_frame(1)
                 
             
                 
@@ -116,16 +116,16 @@ while True:
                     
                 jogador2.x = jogador2.x - velX * janela.delta_time()
             
-            if 1000 >= jogador2HP >= 800:
+            if 1000 >= jogador2HP >= 800:      #as frames tao bugadas, nao me pergunte pq
                 healthbar2.set_curr_frame(5)
             if 800 > jogador2HP > 600:
-                healthbar2.set_curr_frame(3)
+                healthbar2.set_curr_frame(4)
             if 600 > jogador2HP > 400:
-                healthbar2.set_curr_frame(2)
+                healthbar2.set_curr_frame(3)
             if 400 > jogador2HP > 200:
-                healthbar2.set_curr_frame(1)
+                healthbar2.set_curr_frame(2)
             if 200 > jogador2HP > 0:
-                healthbar2.set_curr_frame(0)
+                healthbar2.set_curr_frame(1)
             
             
             
@@ -137,6 +137,8 @@ while True:
                 velY = 5
                 jogadorHP = 1000
                 atk1 = 1
+                jogador_vida -= 1
+                heartbar.pop(jogador_vida)
             
             if jogador2.y > height or jogador2.x > width or jogador2.x < 0 or jogador2HP <= 0:
                 jogador2.y = 500
@@ -146,6 +148,8 @@ while True:
                 velY2 = 5
                 jogador2HP = 1000
                 atk2 = 1
+                jogador2_vida -= 1
+                heartbar3.pop(jogador2_vida)
             
             
             
@@ -251,7 +255,7 @@ while True:
             
             #spawn powerups
                 
-            if time_elapsed > 3 and amount_of_pw < pw_limit:
+            if time_elapsed > 10 and amount_of_pw < pw_limit:
                 if len(pw_random_coords) == 0:
                     pw_random_coords = (random.sample(range(0, len(pw_coords)-1), pw_limit))   #determina as coordenadas do powerup, preciso desse controle pra impedir coordenada repetida
                 if len(pw_random) == 0:
@@ -327,7 +331,7 @@ while True:
                 
                 
                 
-            janela.set_background_color((0, 0, 0))
+            janela.set_background_color((255, 255, 255))
             jogador.draw()
             jogador.update()
             jogador2.draw()
@@ -338,6 +342,14 @@ while True:
             
             for x in range(len(objetos)):
                 objetos[x].draw()
+            for x in range(len(heartbar)):
+                heartbar[x].draw()
+            for x in range(len(heartbar2)):
+                heartbar2[x].draw()
+            for x in range(len(heartbar3)):
+                heartbar3[x].draw()
+            for x in range(len(heartbar4)):
+                heartbar4[x].draw()
             
             if len(pw_spawned) > 1:
                 for x in range(len(pw_spawned)):
