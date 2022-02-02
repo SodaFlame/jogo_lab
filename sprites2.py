@@ -21,14 +21,19 @@ jogador2.y = 480
 
 jogar = Sprite("jogar.png", frames=1)
 jogar.x = width/2 - jogar.width/2
-jogar.y = 200
+jogar.y = 300
 configuracoes = Sprite("configuracoes.png", frames=1)
 configuracoes.x = width/2 - configuracoes.width/2
-configuracoes.y = 250
+configuracoes.y = 350
 sair = Sprite("sair.png", frames=1)
 sair.x = width/2 - sair.width/2
-sair.y = 300
-background = GameImage('sky.jpg')
+sair.y = 400
+lv1 = GameImage('lv1.png')
+lv1.x = width/2 - lv1.width/2
+lv1.y = 100
+lv2 = GameImage('lv2.png')
+lv2.x = width/2 - lv2.width/2
+lv2.y = 150
 
 #UI
 

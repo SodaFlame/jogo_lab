@@ -31,3 +31,5 @@ j1_pw_timer = 0
 j2_pw_timer = 0
 death_counter1 = 0
 death_counter2 = 0
+is_lv1 = 0
+is_lv2 = 0

@@ -3,8 +3,6 @@ from PPlay.gameimage import *
 from PPlay.sprite import *
 from config2 import *
 
-lv2 = 1
-
 #lv1
 
 plat1 = GameImage("plat2.png")
@@ -54,7 +52,7 @@ pw_collected2 = []
 
 #lvl2
 
-if lv2 == 1:
+if is_lv2 == 1 and is_lv1 == 0:
     
     plat1 = GameImage('plat1.png')
     plat1.x = width/2 - plat1.width/2
