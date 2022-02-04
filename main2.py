@@ -22,8 +22,6 @@ jumping2 = False
 in_selection = False
 in_game = False
 in_menu = False
-global is_lv1
-global is_lv2
 
 while True:
     
@@ -52,7 +50,25 @@ while True:
         
         if mouse.is_over_object(lv2) and mouse.is_button_pressed(1):
             is_lv2 = 1
-            is_lv1 = 0
+            plat1 = GameImage('plat1.png')
+            plat1.x = width/2 - plat1.width/2
+            plat1.y = 650
+            
+            p1 = GameImage('small_plat1.png')
+            p1.x = plat1.x + 50
+            p1.y = 450
+            
+            p2 = GameImage('small_plat1.png')
+            p2.x = (plat1.x + plat1.width) - 50 - p2.width
+            p2.y = 450
+            
+            p3 = GameImage('small_plat1.png')
+            p3.x = plat1.x + plat1.width/2 - p3.width/2
+            p3.y = 300
+            
+            
+            objetos = [plat1, p1, p2, p3]
+            pw_coords = [[plat1.x, plat1.y],[p1.x, p1.y],[p2.x, p2.y],[p3.x, p3.y]]
             in_game = True
             in_selection = False
         
@@ -87,22 +103,41 @@ while True:
             jogador.x = jogador.x - velX * janela.delta_time()
 
         if jogador.collided(jogador2):
-            if teclado.key_pressed('h') and jogador.x > jogador2.x and atk_counter >= 0.8 and airbone == False:
+            if teclado.key_pressed('h') and jogador.x > jogador2.x and atk_counter >= 0.8:
                 atk_counter = 0
                 jogador2.x -= 50
                 jogador2HP -= 30*atk1
-            elif teclado.key_pressed('h') and jogador.x < jogador2.x and atk_counter >= 0.8 and airbone == False:
+            elif teclado.key_pressed('h') and jogador.x < jogador2.x and atk_counter >= 0.8:
                 atk_counter = 0
                 jogador2.x += 50
                 jogador2HP -= 30*atk1
-            if teclado.key_pressed('j') and jogador.x > jogador2.x and atk_counter >= 1.2 and airbone == False:
+            if teclado.key_pressed('j') and jogador.x > jogador2.x and atk_counter >= 1.2:
                 atk_counter = 0
                 jogador2.x -= 80
                 jogador2HP -= 50*atk1
-            elif teclado.key_pressed('j') and jogador.x < jogador2.x and atk_counter >= 1.2 and airbone == False:
+            elif teclado.key_pressed('j') and jogador.x < jogador2.x and atk_counter >= 1.2:
                 atk_counter = 0
                 jogador2.x += 80
                 jogador2HP -= 50*atk1
+        
+        if jogador2.collided(jogador):
+            if teclado.key_pressed('m') and jogador2.x > jogador.x and atk_counter2 >= 0.8:
+                atk_counter2 = 0
+                jogador.x -= 50
+                jogadorHP -= 30*atk2
+            elif teclado.key_pressed('m') and jogador2.x < jogador.x and atk_counter2 >= 0.8:
+                atk_counter2 = 0
+                jogador.x += 50
+                jogadorHP -= 30*atk2
+            if teclado.key_pressed('n') and jogador2.x > jogador.x and atk_counter2 >= 1.2:
+                atk_counter2 = 0
+                jogador.x -= 80
+                jogadorHP -= 50*atk2
+            elif teclado.key_pressed('n') and jogador2.x < jogador.x and atk_counter2 >= 1.2:
+                atk_counter2 = 0
+                jogador.x += 80
+                jogadorHP -= 50*atk2
+
 
         #healthbar
 
@@ -245,7 +280,7 @@ while True:
             if jogador2.collided(selected_obj2[0]) and jogador2.y + 50 < selected_obj2[0].y:
                 airbone2 = False
                 jumping2 = False
-                if (teclado.key_pressed("l")):
+                if (teclado.key_pressed("up")):
                         jumping2 = True
             
             if (jogador2.y + jogador2.height) > (selected_obj2[0].y + selected_obj2[0].height):

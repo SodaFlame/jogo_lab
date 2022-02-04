@@ -50,29 +50,6 @@ pw_spawned = []
 pw_collected = []
 pw_collected2 = []
 
-#lvl2
-
-if is_lv2 == 1 and is_lv1 == 0:
-    
-    plat1 = GameImage('plat1.png')
-    plat1.x = width/2 - plat1.width/2
-    plat1.y = 650
-    
-    p1 = GameImage('small_plat1.png')
-    p1.x = plat1.x + 50
-    p1.y = 450
-    
-    p2 = GameImage('small_plat1.png')
-    p2.x = (plat1.x + plat1.width) - 50 - p2.width
-    p2.y = 450
-    
-    p3 = GameImage('small_plat1.png')
-    p3.x = plat1.x + plat1.width/2 - p3.width/2
-    p3.y = 300
-    
-    
-    objetos = [plat1, p1, p2, p3]
-    pw_coords = [[plat1.x, plat1.y],[p1.x, p1.y],[p2.x, p2.y],[p3.x, p3.y]]
 
 
 
